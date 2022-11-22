@@ -120,4 +120,12 @@ public class DatabaseGateway implements CourseDataInterface, UserDataInterface, 
         dataHandler.deleteData(info);
     }
 
+    public void readDependency(){
+        dataHandler.readDependency();
+    }
+
+    public void writeDependency(){
+        dataHandler.writeDependency();
+    }
+
 }
