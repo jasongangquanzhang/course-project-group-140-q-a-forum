@@ -24,8 +24,14 @@ public class RuntimeDataHandler implements DataHandlerInterface {
      *             arraylist}
      */
 
+    final DatabaseDataHandler databaseHandler;
+
+    public RuntimeDataHandler(){
+        databaseHandler = new DatabaseDataHandler();
+    }
+
     @Override
-    public void setData(HashMap<String, Object> info) {
+    public void setData(HashMap info) {
         /*
          * Value of key indicates the following type of data
          * 1: User
@@ -34,40 +40,9 @@ public class RuntimeDataHandler implements DataHandlerInterface {
          * All the other types of data (Post, Comment) are stored directly in its corresponding branching class
          * (i.e, Posts of a course are stored in Course. posts)
          */
-        int key = (int) info.get("key");
-        Object value = info.get("data");
-        switch (key){
-            case 1:
-                users = (ArrayList<User>) value;
-
-                name2User = new HashMap<>();
-                email2User = new HashMap<>();
-                for (User user : (ArrayList<User>) value) {
-                    String username = user.getUsername();
-                    String email = user.getEmail();
-                    name2User.put(username, user);
-                    email2User.put(email, user);
-                }
-            case 2:
-                courses = (ArrayList<Course>) value;
-                for (Course course : (ArrayList<Course>) value) {
-                    String code = course.getCode();
-                    code2Course.put(code, course);
-                }
-            case 3:
-                reports = (ArrayList<Report>) value;
-                for (Report report : (ArrayList<Report>) value) {
-                    int reportType = report.getReportType();
-                    if (! type2Report.containsKey(reportType)){
-                        type2Report.put(reportType, new ArrayList<Report>());
-                    }
-                    else{
-                        type2Report.get(reportType).add(report);
-                    }
-                }
-            default:
-                throw new RuntimeException();
-        }
+        users = (ArrayList<User>) info.get(1);
+        courses = (ArrayList<Course>) info.get(1);
+        reports = (ArrayList<Report>) info.get(1);
     }
 
     /**
@@ -77,7 +52,6 @@ public class RuntimeDataHandler implements DataHandlerInterface {
      *             single course/user/report type object}
      */
 
-    @Override
     public void addData(HashMap<String, Object> info) {
         /*
          * Value of key indicates the following type of data
@@ -130,7 +104,6 @@ public class RuntimeDataHandler implements DataHandlerInterface {
      *             single course/user/report type object}
      */
 
-    @Override
     public void deleteData(HashMap<String, Object> info) {
         /*
          * Value of key indicates the following type of data
@@ -178,7 +151,6 @@ public class RuntimeDataHandler implements DataHandlerInterface {
         return map;
     }
 
-    @Override
     public ArrayList getData(int key) {
         /*
          * Value of key indicates the following type of data
@@ -229,6 +201,15 @@ public class RuntimeDataHandler implements DataHandlerInterface {
 
     public ArrayList<Report> getAllReportFromType(int key){
         return type2Report.get(key);
+    }
+
+    public void readDependency(){
+        HashMap<Integer, Object> data = databaseHandler.getData();
+        setData(data);
+    }
+
+    public void writeDependency(){
+        databaseHandler.setData(getData());
     }
 
 }
