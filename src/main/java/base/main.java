@@ -55,7 +55,7 @@ public class main {
             adminInfo.put("Email", "3232085039@qq.com");
             adminInfo.put("isAdmin", "True");
             adminInfo.put("Verification", "DebugCode");
-            //userController1.registerUser(adminInfo);
+            userController1.registerUser(adminInfo, "DebugCode");
             // System.out.println( userController1.registerUser(adminInfo));
             User user = new User("DebugPurpose", "DebugPurpose", "DebugPurpose");
             ArrayList<Course> courses = courseController.getAllCourses();

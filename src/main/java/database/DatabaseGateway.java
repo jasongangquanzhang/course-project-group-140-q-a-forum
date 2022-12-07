@@ -73,9 +73,9 @@ public class DatabaseGateway implements CourseDataInterface, UserDataInterface, 
      */
     @Override
     public void resetUsername(User user, String newUsername) {
-        User userEntity = dataHandler.lookupUserfromName(user.getEmail());
-        dataHandler.updateUsername(userEntity.getUsername(), newUsername);
-        userEntity.setUsername(newUsername);
+        //User userEntity = dataHandler.lookupUserfromName(user.getEmail());
+        dataHandler.updateUsername(user.getUsername(), newUsername);
+        user.setUsername(newUsername);
     }
     /**
      * Get user information by user's email, and change user's password by newPassword.
